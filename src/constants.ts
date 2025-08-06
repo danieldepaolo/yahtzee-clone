@@ -37,3 +37,9 @@ export const scoreCategoryOrder: ScoreCategory[] = [
 
 export const maxRolesPerTurn = 3;
 export const maxNumPlayers = 6;
+export const nameMaxChars = 7;
+
+export const fullHouseScore = 25;
+export const smallStraightScore = 30;
+export const largeStraightScore = 40;
+export const yahtzeeScore = 50;

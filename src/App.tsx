@@ -1,22 +1,37 @@
-import { useAtom } from 'jotai';
-import DiceArea from './components/DiceArea';
-import Scoresheet from './components/Scoresheet';
+import { useAtom, useAtomValue } from "jotai";
+import DiceArea from "./components/DiceArea";
+import Scoresheet from "./components/Scoresheet";
 
-import { gameStageAtom } from './store/atoms';
-import './styles/app.scss';
+import { gamePlayersAtom, gameStageAtom } from "./store/atoms";
+import "./styles/app.scss";
 
 export function App() {
   const [gameStage, setGameStage] = useAtom(gameStageAtom);
+  const players = useAtomValue(gamePlayersAtom);
+
+  const ableToStartGame = gameStage === "enterNames" && players.length > 0;
+
+  const handleStartGame = () => {
+    if (ableToStartGame) {
+      setGameStage("inProgress");
+    }
+  };
 
   return (
     <div className="app">
       <h1>Yahtzee Clone</h1>
-      {gameStage === 'enterNames' ? (
-        <button onClick={() => setGameStage('inProgress')}>Start game</button>
-      ) : (
-        <DiceArea />
-      )}
-      <Scoresheet />
+      <main className="main-play-area">
+        <div className="dice-mat">
+          {gameStage === "enterNames" ? (
+            <button onClick={handleStartGame} disabled={!ableToStartGame}>
+              Start game
+            </button>
+          ) : (
+            <DiceArea />
+          )}
+        </div>
+        <Scoresheet />
+      </main>
     </div>
   );
 }

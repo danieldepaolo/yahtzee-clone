@@ -1,5 +1,9 @@
 import { KeyboardEvent, useState } from "react";
 
+import { nameMaxChars } from "../../constants";
+
+import classes from './styles.module.scss';
+
 const NameInput = ({
   placeholder,
   onConfirm,
@@ -31,6 +35,8 @@ const NameInput = ({
       value={name}
       onBlur={handleBlur}
       onKeyDown={handleKeyDown}
+      maxLength={nameMaxChars}
+      className={classes.nameInput}
     ></input>
   );
 };

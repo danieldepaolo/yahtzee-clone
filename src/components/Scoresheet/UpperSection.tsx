@@ -11,6 +11,7 @@ import { gamePlayersAtom, gameStageAtom, turnAtom } from "../../store/atoms";
 import { Player } from "../../types";
 
 import classes from "./styles.module.scss";
+import PlayerTotalCells from "../SheetCells/PlayerTotalCells";
 
 const UpperSection = () => {
   const gamePlayers = useAtomValue(gamePlayersAtom);
@@ -133,17 +134,10 @@ const UpperSection = () => {
             <span className={classes.headingLarge}>Total</span>
           </td>
           <td>&rarr;</td>
-          {new Array(6).fill(null).map((_, i) => {
-            const player = gamePlayers[i];
-
-            return (
-              <td key={`player-total-cell-${player?.name || i}`}>
-                <div className={cn(classes.playerDataCell, classes.textBold)}>
-                  {player ? upperSectionTotals(player.id).subtotal : null}
-                </div>
-              </td>
-            );
-          })}
+          <PlayerTotalCells
+            players={gamePlayers}
+            getTotal={(id) => upperSectionTotals(id).subtotal}
+          />
         </tr>
         <tr>
           <td>
@@ -160,17 +154,10 @@ const UpperSection = () => {
               Score 35
             </span>
           </td>
-          {new Array(6).fill(null).map((_, i) => {
-            const player = gamePlayers[i];
-
-            return (
-              <td key={`player-bonus-cell-${player?.name || i}`}>
-                <div className={cn(classes.playerDataCell, classes.textBold)}>
-                  {player ? upperSectionTotals(player.id).bonus : null}
-                </div>
-              </td>
-            );
-          })}
+          <PlayerTotalCells
+            players={gamePlayers}
+            getTotal={(id) => upperSectionTotals(id).bonus}
+          />
         </tr>
         <tr className={classes.cellDark}>
           <td>
@@ -183,17 +170,10 @@ const UpperSection = () => {
             </div>
           </td>
           <td>&rarr;</td>
-          {new Array(6).fill(null).map((_, i) => {
-            const player = gamePlayers[i];
-
-            return (
-              <td key={`player-total-cell-${player?.name || i}`}>
-                <div className={cn(classes.playerDataCell, classes.textBold)}>
-                  {player ? upperSectionTotals(player.id).total : null}
-                </div>
-              </td>
-            );
-          })}
+          <PlayerTotalCells
+            players={gamePlayers}
+            getTotal={(id) => upperSectionTotals(id).total}
+          />
         </tr>
       </tbody>
     </table>

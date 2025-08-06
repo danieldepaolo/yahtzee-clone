@@ -2,15 +2,14 @@ import cn from "classnames";
 
 import UpperSection from "./UpperSection";
 
-import useTurnScore from "../../hooks/useTurnScore";
-import { scoreCategoryOrder } from "../../constants";
-
 import classes from "./styles.module.scss";
+import LowerSection from "./LowerSection";
 
 const Scoresheet = () => {
   return (
     <div className={classes.scoreSheet}>
       <UpperSection />
+      <LowerSection />
     </div>
   );
 };

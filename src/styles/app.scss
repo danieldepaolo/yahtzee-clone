@@ -1,6 +1,6 @@
 :root {
-  --color-cell-light: #DEE8E0;
-  --color-cell-dark: #CFCFCF;
+  --color-cell-light: #dee8e0;
+  --color-cell-dark: #cfcfcf;
 }
 
 * {
@@ -16,4 +16,17 @@ html {
 
 .app {
   font-size: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.main-play-area {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 120rem;
+  background: linear-gradient(to bottom, #4CAF50, #2E7D32); /* Green gradient */
+  padding: 5rem;
 }

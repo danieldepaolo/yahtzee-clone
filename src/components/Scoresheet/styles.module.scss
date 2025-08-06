@@ -1,13 +1,12 @@
+.lowerSection,
 .upperSection {
   border-left: 1px solid black;
-  border-top: 1px solid black;
   border-collapse: collapse;
 }
 
-.lowerSection {
-}
-
-.totalsSection {
+.upperSection {
+  margin-bottom: 1rem;
+  border-top: 1px solid black;
 }
 
 .headingLarge {
@@ -60,6 +59,10 @@ th {
   border-bottom: 1px solid black;
   width: 6rem;
   height: 3rem;
+}
+
+tr {
+  background-color: white;
 }
 
 .cellLight {
