@@ -1,6 +1,7 @@
 import { useAtomValue } from "jotai";
 
 import { diceAtom } from "../store/atoms";
+import { ScoreCategory } from "../types";
 
 const useTurnScore = () => {
   const dice = useAtomValue(diceAtom);
@@ -39,7 +40,7 @@ const useTurnScore = () => {
   }
 
   function singleValueScore(value: number) {
-    const count = diceCounts[value];
+    const count = diceCounts[value] || 0;
     return count * value;
   }
 
@@ -59,7 +60,7 @@ const useTurnScore = () => {
     return hasNOfKind(3, true) && hasNOfKind(2, true) ? 25 : 0;
   }
 
-  function hasSmallStraight() {
+  function smallStraightScore() {
     const hasSmallStraight =
       hasStraightOfLength(4, 0) || hasStraightOfLength(4, 1);
   
@@ -74,6 +75,42 @@ const useTurnScore = () => {
 
   function chanceScore() {
     return totalDiceValue;
+  }
+
+  function getScoreOfCategory(category: ScoreCategory) {
+    switch(category) {
+      case 'ones':
+        return singleValueScore(1);
+      case 'twos':
+        return singleValueScore(2);
+      case 'threes':
+        return singleValueScore(3);
+      case 'fours':
+        return singleValueScore(4);
+      case 'fives':
+        return singleValueScore(5);
+      case 'sixes':
+        return singleValueScore(6);
+      case 'threeOfKind':
+        return threeOfKindScore();
+      case 'fourOfKind':
+        return fourOfKindScore();
+      case 'fullHouse':
+        return fullHouseScore();
+      case 'smallStraight':
+        return smallStraightScore();
+      case 'largeStraight':
+        return largeStraightScore();
+      case 'yahtzee':
+        return yahtzeeScore();
+      case 'chance':
+      default:
+        return chanceScore();
+    }
+  }
+
+  return {
+    getScoreOfCategory
   }
 };
 

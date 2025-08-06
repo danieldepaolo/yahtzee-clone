@@ -1,4 +1,5 @@
 export type dieId = "die-1" | "die-2" | "die-3" | "die-4" | "die-5";
+export type playerId = 1 | 2 | 3 | 4 | 5 | 6;
 
 export interface Die {
   id: dieId;
@@ -24,14 +25,20 @@ export interface PlayerScores {
   chance: number | null
 }
 
+export type ScoreCategory = keyof PlayerScores;
+
 export interface Player {
+  id: playerId
   name: string
-  scores: PlayerScores
 }
 
 export interface GameTurn {
-  player: string
+  playerId: playerId
   timesRolled: number
 }
 
-export type PlayerTurnOrder = string[];
+export type GamePlayers = Player[];
+
+export type GameScore = Record<playerId, PlayerScores>
+
+export type GameStage = 'enterNames' | 'inProgress' | 'gameOver';

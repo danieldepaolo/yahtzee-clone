@@ -1,3 +1,8 @@
+:root {
+  --color-cell-light: #DEE8E0;
+  --color-cell-dark: #CFCFCF;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -7,4 +12,8 @@
 html {
   box-sizing: inherit;
   font-size: 62.5%;
+}
+
+.app {
+  font-size: 1.5rem;
 }

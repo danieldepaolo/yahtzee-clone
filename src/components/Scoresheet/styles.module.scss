@@ -1,0 +1,113 @@
+.scoreSheet {
+  .upperSection {
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+    border-collapse: collapse;
+  }
+
+  .lowerSection {
+
+  }
+
+  .totalsSection {
+    
+  }
+
+  .headingLarge {
+    font-weight: bold;
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+  }
+
+  .headingSmall {
+    font-weight: bold;
+    font-size: 1.4rem;
+  }
+
+  .textSmall {
+    font-size: 1.3rem;
+  }
+
+  .textTiny {
+    font-size: 1.15rem;
+  }
+
+  .textUpper {
+    text-transform: uppercase;
+  }
+
+  .textBold {
+    font-weight: bold;
+  }
+
+  .leftColumn {
+    width: 17rem;
+    text-align: left;
+  }
+
+  .howToScoreColumn {
+    width: 13rem;
+    text-align: center;
+  }
+
+  .compactCell {
+    padding: 0;
+  }
+
+  .playerDataCell {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.9rem;
+  
+    &Current {
+      background-color: rgb(238, 238, 217);
+    }
+  }
+
+  .playerHeaderCell {
+    &Current {
+      background-color: rgb(238, 238, 217);
+    }
+  }
+
+  .playerFillCategoryButton {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: inherit;
+    font-family: inherit;
+
+    &:disabled {
+      color: black;
+      cursor: initial;
+    }
+  }
+
+  .titleWithDescription {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  td, th {
+    padding: 3px;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    width: 6rem;
+    height: 3rem;
+  }
+
+  .cellLight {
+    background-color: var(--color-cell-light);
+  }
+
+  .cellDark {
+    background-color: var(--color-cell-dark);
+  }
+}

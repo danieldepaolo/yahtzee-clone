@@ -5,8 +5,9 @@ import SixSidedDie from "../SixSidedDie";
 import useDice from "../../hooks/useDice";
 import useGame from "../../hooks/useGame";
 import { diceAtom, selectedDiceAtom, turnAtom } from "../../store/atoms";
-import { Die } from "../../types";
+import { Die, dieId } from "../../types";
 import { maxRolesPerTurn } from "../../constants";
+import classes from "./styles.module.scss";
 
 const DiceArea = () => {
   const turn = useAtomValue(turnAtom);
@@ -14,13 +15,14 @@ const DiceArea = () => {
   const dice = useAtomValue(diceAtom);
 
   const { incrementTurnRolls } = useGame();
-  const { rollAllDice, rollDice } = useDice();
+  const { rollAllDice, rollDice, toggleDie, resetSelectedDice } = useDice();
 
   const rerollDisabled = !selectedDice?.length || turn.timesRolled === 3;
 
   const handleReroll = () => {
     rollDice(...selectedDice);
     incrementTurnRolls();
+    resetSelectedDice();
   };
 
   const handleFirstRoll = () => {
@@ -28,12 +30,29 @@ const DiceArea = () => {
     incrementTurnRolls();
   };
 
+  const handleSelectDie = (id: dieId) => {
+    if (turn.timesRolled === 0 || turn.timesRolled === 3) return;
+
+    toggleDie(id);
+  };
+
   return (
-    <div className="dice-area">
-      {dice.map((die: Die) => (
-        <SixSidedDie key={die.id} value={die.value} />
-      ))}
-      <p>{`Roll ${turn.timesRolled + 1} / ${maxRolesPerTurn}`}</p>
+    <div className={classes.diceArea}>
+      <div className={classes.diceContainer}>
+        {dice.map((die: Die) => (
+          <div
+            key={die.id}
+            className={classes.dieContainer}
+            onClick={() => handleSelectDie(die.id)}
+          >
+            <SixSidedDie
+              value={die.value}
+              selected={selectedDice.includes(die.id)}
+            />
+          </div>
+        ))}
+      </div>
+      <p>{`Rolls: ${turn.timesRolled} / ${maxRolesPerTurn}`}</p>
       {turn.timesRolled === 0 ? (
         <button onClick={handleFirstRoll}>Roll</button>
       ) : (

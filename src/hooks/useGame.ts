@@ -1,43 +1,53 @@
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom } from "jotai";
 
-import { selectedDiceAtom, turnAtom, turnOrderAtom } from "../store/atoms";
-import { dieId } from "../types";
+import { gameScoreAtom, turnAtom, gamePlayersAtom } from "../store/atoms";
+import { Player, playerId, ScoreCategory } from "../types";
+import { defaultPlayerScores } from "../constants";
+import useTurnScore from "./useTurnScore";
 
 const useGame = () => {
-  const [turnOrder, setTurnOrder] = useAtom(turnOrderAtom);
+  const [gamePlayers, setGamePlayers] = useAtom(gamePlayersAtom);
   const [turn, setTurn] = useAtom(turnAtom);
-  const setSelectedDice = useSetAtom(selectedDiceAtom);
+  const [gameScore, setGameScore] = useAtom(gameScoreAtom);
 
-  function selectDies(...dieIds: dieId[]) {
-    setSelectedDice(prev => {
-      const newSelectedDice = [...prev];
+  console.log(gamePlayers);
+  console.log(turn);
+  console.log(gameScore);
 
-      dieIds.forEach(id => {
-        if (!newSelectedDice.includes(id)) {
-          newSelectedDice.push(id);
-        }
-      });
-
-      return newSelectedDice;
-    });
-  }
-
-  function deselectDies(...dieIds: dieId[]) {
-    setSelectedDice(prev => prev.filter(id => !dieIds.includes(id)));
-  }
+  const { getScoreOfCategory } = useTurnScore();
 
   function moveToNextPlayer() {
-    const currentOrder = turnOrder.findIndex(name => name === turn.player);
+    const currentOrder = gamePlayers.findIndex(
+      (player) => player.id === turn.playerId
+    );
 
     let nextIndex = currentOrder + 1;
-    if (nextIndex === turnOrder.length) {
+    if (nextIndex === gamePlayers.length) {
       nextIndex = 0;
     }
 
     setTurn({
-      player: turnOrder[nextIndex],
-      timesRolled: 0
+      playerId: gamePlayers[nextIndex].id,
+      timesRolled: 0,
     });
+  }
+
+  function addPlayerOrEdit(player: Player) {
+    const playerIndex = gamePlayers.findIndex(
+      (existing) => existing.id === player.id
+    );
+
+    if (playerIndex === -1) {
+      setGamePlayers((prev) => [...prev, player]);
+    } else {
+      setGamePlayers((prev) => {
+        const newPlayers = [...prev];
+        newPlayers[playerIndex] = {
+          ...player,
+        };
+        return newPlayers;
+      });
+    }
   }
 
   function incrementTurnRolls() {
@@ -47,13 +57,26 @@ const useGame = () => {
     }));
   }
 
+  function fillCategory(category: ScoreCategory) {
+    setGameScore((prev) => {
+      const newScores = structuredClone(prev);
+      const playerScores = newScores[turn.playerId];
+      newScores[turn.playerId] = {
+        ...playerScores,
+        [category]: getScoreOfCategory(category),
+      };
+      return newScores;
+    });
+
+    moveToNextPlayer();
+  }
+
   return {
-    setTurnOrder,
+    addPlayerOrEdit,
+    fillCategory,
     moveToNextPlayer,
     incrementTurnRolls,
-    selectDies,
-    deselectDies
-  }
-}
+  };
+};
 
 export default useGame;

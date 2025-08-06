@@ -1,6 +1,14 @@
 import { atom } from "jotai";
 
-import { Die, dieId, GameTurn, Player, PlayerTurnOrder } from "../types";
+import {
+  Die,
+  dieId,
+  GameScore,
+  GameTurn,
+  Player,
+  GamePlayers,
+  GameStage,
+} from "../types";
 import { defaultPlayerScores } from "../constants";
 
 export const diceAtom = atom<Die[]>([
@@ -28,15 +36,25 @@ export const diceAtom = atom<Die[]>([
 
 export const selectedDiceAtom = atom<dieId[]>([]);
 
-export const playerAtom = atom<Player>({
-  name: '',
-  scores: { ...defaultPlayerScores }
-});
+// export const playerAtom = atom<Player>({
+//   id: 1,
+//   name: "",
+// });
 
 export const turnAtom = atom<GameTurn>({
-  player: '',
-  timesRolled: 0
+  playerId: 1,
+  timesRolled: 0,
 });
 
-export const turnOrderAtom = atom<PlayerTurnOrder>([]);
+export const gamePlayersAtom = atom<GamePlayers>([]);
 
+export const gameScoreAtom = atom<GameScore>({
+  1: { ...defaultPlayerScores },
+  2: { ...defaultPlayerScores },
+  3: { ...defaultPlayerScores },
+  4: { ...defaultPlayerScores },
+  5: { ...defaultPlayerScores },
+  6: { ...defaultPlayerScores }
+});
+
+export const gameStageAtom = atom<GameStage>("enterNames");
