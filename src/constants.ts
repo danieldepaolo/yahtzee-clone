@@ -36,3 +36,4 @@ export const scoreCategoryOrder: ScoreCategory[] = [
 ];
 
 export const maxRolesPerTurn = 3;
+export const maxNumPlayers = 6;

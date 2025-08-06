@@ -1,6 +1,6 @@
 import { KeyboardEvent, useState } from "react";
 
-const NameInputCell = ({
+const NameInput = ({
   placeholder,
   onConfirm,
   initialValue = ''
@@ -24,17 +24,15 @@ const NameInputCell = ({
   }
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder={placeholder}
-        onChange={(e) => setName(e.target.value)}
-        value={name}
-        onBlur={handleBlur}
-        onKeyDown={handleKeyDown}
-      ></input>
-    </div>
+    <input
+      type="text"
+      placeholder={placeholder}
+      onChange={(e) => setName(e.target.value)}
+      value={name}
+      onBlur={handleBlur}
+      onKeyDown={handleKeyDown}
+    ></input>
   );
 };
 
-export default NameInputCell;
+export default NameInput;

@@ -5,7 +5,7 @@ import { Player, ScoreCategory } from "../../types";
 import { turnAtom } from "../../store/atoms";
 import useGame from "../../hooks/useGame";
 
-import classes from "./styles.module.scss";
+import classes from "./cells.module.scss";
 import usePlayerScore from "../../hooks/usePlayerScore";
 
 const PlayerCategoryCell = ({

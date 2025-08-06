@@ -1,0 +1,41 @@
+.playerDataCell {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.9rem;
+
+  &Current {
+    background-color: rgb(238, 238, 217);
+  }
+}
+
+.playerHeaderCell {
+  &Current {
+    background-color: rgb(238, 238, 217);
+  }
+}
+
+.playerFillCategoryButton {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+
+  &:disabled {
+    color: black;
+    cursor: initial;
+  }
+}
+
+.cellLight {
+  background-color: var(--color-cell-light);
+}
+
+.cellDark {
+  background-color: var(--color-cell-dark);
+}

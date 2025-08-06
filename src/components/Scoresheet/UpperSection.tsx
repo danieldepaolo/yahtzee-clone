@@ -1,15 +1,16 @@
-import { ReactElement, useState } from "react";
+import { useState } from "react";
 import cn from "classnames";
 import { useAtomValue } from "jotai";
 
-import NameInputCell from "./NameInputCell";
+import PlayerCategoryCells from "../SheetCells/PlayerCategoryCells";
+import PlayerHeaderCell from "../SheetCells/PlayerHeaderCell";
 
 import useGame from "../../hooks/useGame";
-import { gamePlayersAtom, gameStageAtom, turnAtom } from "../../store/atoms";
-import classes from "./styles.module.scss";
-import { Player } from "../../types";
-import PlayerCategoryCell from "./PlayerCategoryCell";
 import usePlayerScore from "../../hooks/usePlayerScore";
+import { gamePlayersAtom, gameStageAtom, turnAtom } from "../../store/atoms";
+import { Player } from "../../types";
+
+import classes from "./styles.module.scss";
 
 const UpperSection = () => {
   const gamePlayers = useAtomValue(gamePlayersAtom);
@@ -33,34 +34,6 @@ const UpperSection = () => {
     setEnterNameIndex(null);
   };
 
-  function playerHeaderCell(index: number): ReactElement {
-    const player = gamePlayers[index];
-
-    if (gameStage === "enterNames" && index === enterNameIndex) {
-      return (
-        <th key={`enter-name-${index}`}>
-          <NameInputCell
-            placeholder={`Player ${index + 1}`}
-            initialValue={player?.name || ""}
-            onConfirm={(name) => handleAddOrEditPlayer(index, name)}
-          />
-        </th>
-      );
-    } else {
-      return (
-        <th
-          key={`${player?.name}-${index}` || `empty-name-${index}`}
-          onClick={() => setEnterNameIndex(index)}
-          className={cn(classes.playerHeaderCell, {
-            [classes.playerHeaderCellCurrent]: player?.id === turn.playerId,
-          })}
-        >
-          {player?.name || ""}
-        </th>
-      );
-    }
-  }
-
   return (
     <table className={classes.upperSection}>
       <thead>
@@ -71,7 +44,15 @@ const UpperSection = () => {
           <th className={cn(classes.headingLarge, classes.howToScoreColumn)}>
             How To Score
           </th>
-          {new Array(6).fill(null).map((_, i) => playerHeaderCell(i))}
+          {new Array(6).fill(null).map((_, i) => (
+            <PlayerHeaderCell
+              key={`player-header-cell-${i}`}
+              index={i}
+              inputActive={gameStage === "enterNames" && i === enterNameIndex}
+              onEnterName={handleAddOrEditPlayer}
+              setEnterNameIndex={setEnterNameIndex}
+            />
+          ))}
         </tr>
       </thead>
       <tbody>
@@ -79,187 +60,73 @@ const UpperSection = () => {
           <td>
             <span className={classes.headingSmall}>Aces</span>
           </td>
-          <td
-            className={cn(
-              classes.howToScoreColumn,
-              classes.cellLight,
-              classes.compactCell
-            )}
-          >
+          <td className={cn(classes.howToScoreColumn, classes.cellLight)}>
             <span className={classes.textSmall}>
               <div>Count and add</div>
               <div>only Aces</div>
             </span>
           </td>
-          {new Array(6).fill(null).map((_, i) => {
-            const player = gamePlayers[i];
-
-            return (
-              <td
-                key={`player-aces-cell-${player?.name || i}`}
-                className={classes.compactCell}
-              >
-                {player ? (
-                  <PlayerCategoryCell player={player} category="ones" />
-                ) : null}
-              </td>
-            );
-          })}
+          <PlayerCategoryCells players={gamePlayers} category="ones" />
         </tr>
         <tr>
           <td>
             <span className={classes.headingSmall}>Twos</span>
           </td>
-          <td
-            className={cn(
-              classes.howToScoreColumn,
-              classes.cellLight,
-              classes.compactCell
-            )}
-          >
+          <td className={cn(classes.howToScoreColumn, classes.cellLight)}>
             <span className={classes.textSmall}>
               <div>Count and add</div>
               <div>only Twos</div>
             </span>
           </td>
-          {new Array(6).fill(null).map((_, i) => {
-            const player = gamePlayers[i];
-
-            return (
-              <td
-                key={`player-twos-cell-${player?.name || i}`}
-                className={classes.compactCell}
-              >
-                {player ? (
-                  <PlayerCategoryCell player={player} category="twos" />
-                ) : null}
-              </td>
-            );
-          })}
+          <PlayerCategoryCells players={gamePlayers} category="twos" />
         </tr>
         <tr>
           <td>
             <span className={classes.headingSmall}>Threes</span>
           </td>
-          <td
-            className={cn(
-              classes.howToScoreColumn,
-              classes.cellLight,
-              classes.compactCell
-            )}
-          >
+          <td className={cn(classes.howToScoreColumn, classes.cellLight)}>
             <span className={classes.textSmall}>
               <div>Count and add</div>
               <div>only Threes</div>
             </span>
           </td>
-          {new Array(6).fill(null).map((_, i) => {
-            const player = gamePlayers[i];
-
-            return (
-              <td
-                key={`player-threes-cell-${player?.name || i}`}
-                className={classes.compactCell}
-              >
-                {player ? (
-                  <PlayerCategoryCell player={player} category="threes" />
-                ) : null}
-              </td>
-            );
-          })}
+          <PlayerCategoryCells players={gamePlayers} category="threes" />
         </tr>
         <tr>
           <td>
             <span className={classes.headingSmall}>Fours</span>
           </td>
-          <td
-            className={cn(
-              classes.howToScoreColumn,
-              classes.cellLight,
-              classes.compactCell
-            )}
-          >
+          <td className={cn(classes.howToScoreColumn, classes.cellLight)}>
             <span className={classes.textSmall}>
               <div>Count and add</div>
               <div>only Fours</div>
             </span>
           </td>
-          {new Array(6).fill(null).map((_, i) => {
-            const player = gamePlayers[i];
-
-            return (
-              <td
-                key={`player-fours-cell-${player?.name || i}`}
-                className={classes.compactCell}
-              >
-                {player ? (
-                  <PlayerCategoryCell player={player} category="fours" />
-                ) : null}
-              </td>
-            );
-          })}
+          <PlayerCategoryCells players={gamePlayers} category="fours" />
         </tr>
         <tr>
           <td>
             <span className={classes.headingSmall}>Fives</span>
           </td>
-          <td
-            className={cn(
-              classes.howToScoreColumn,
-              classes.cellLight,
-              classes.compactCell
-            )}
-          >
+          <td className={cn(classes.howToScoreColumn, classes.cellLight)}>
             <span className={classes.textSmall}>
               <div>Count and add</div>
               <div>only Fives</div>
             </span>
           </td>
-          {new Array(6).fill(null).map((_, i) => {
-            const player = gamePlayers[i];
-
-            return (
-              <td
-                key={`player-fives-cell-${player?.name || i}`}
-                className={classes.compactCell}
-              >
-                {player ? (
-                  <PlayerCategoryCell player={player} category="fives" />
-                ) : null}
-              </td>
-            );
-          })}
+          <PlayerCategoryCells players={gamePlayers} category="fives" />
         </tr>
         <tr>
           <td>
             <span className={classes.headingSmall}>Sixes</span>
           </td>
-          <td
-            className={cn(
-              classes.howToScoreColumn,
-              classes.cellLight,
-              classes.compactCell
-            )}
-          >
+          <td className={cn(classes.howToScoreColumn, classes.cellLight)}>
             <span className={classes.textSmall}>
               <div>Count and add</div>
               <div>only Sixes</div>
             </span>
           </td>
-          {new Array(6).fill(null).map((_, i) => {
-            const player = gamePlayers[i];
-
-            return (
-              <td
-                key={`player-sixes-cell-${player?.name || i}`}
-                className={classes.compactCell}
-              >
-                {player ? (
-                  <PlayerCategoryCell player={player} category="sixes" />
-                ) : null}
-              </td>
-            );
-          })}
+          <PlayerCategoryCells players={gamePlayers} category="sixes" />
         </tr>
         <tr className={classes.cellDark}>
           <td>
@@ -288,13 +155,7 @@ const UpperSection = () => {
               </span>
             </div>
           </td>
-          <td
-            className={cn(
-              classes.cellLight,
-              classes.howToScoreColumn,
-              classes.compactCell
-            )}
-          >
+          <td className={cn(classes.cellLight, classes.howToScoreColumn)}>
             <span className={cn(classes.textSmall, classes.textUpper)}>
               Score 35
             </span>
