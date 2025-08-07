@@ -5,7 +5,6 @@ import {
   dieId,
   GameScore,
   GameTurn,
-  Player,
   GamePlayers,
   GameStage,
 } from "../types";

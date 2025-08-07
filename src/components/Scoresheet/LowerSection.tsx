@@ -15,11 +15,12 @@ import {
 } from "../../constants";
 
 import classes from "./styles.module.scss";
+import YahtzeeBonusCells from "../SheetCells/YahtzeeBonusCells";
 
 const LowerSection = () => {
   const gamePlayers = useAtomValue(gamePlayersAtom);
 
-  const { lowerSectionTotals, upperSectionTotals, grandTotal } =
+  const { lowerSectionTotals, upperSectionTotals, grandTotal, yahtzeeBonusScore } =
     usePlayerScore();
 
   return (
@@ -144,6 +145,30 @@ const LowerSection = () => {
             </span>
           </td>
           <PlayerCategoryCells players={gamePlayers} category="chance" />
+        </tr>
+        <tr>
+          <td rowSpan={2} className={cn(classes.textCentered, classes.cellDark)}>
+            <span className={classes.headingLarge}>
+              <div>Yahtzee</div>
+              <div>Bonus</div>
+            </span>
+          </td>
+          <td className={cn(classes.howToScoreColumn, classes.cellLight)}>
+            <span className={cn(classes.textSmall, classes.textUpper)}>
+              <div>X For</div>
+              <div>Each Bonus</div>
+            </span>
+          </td>
+          <YahtzeeBonusCells players={gamePlayers} />
+        </tr>
+        <tr>
+          <td className={cn(classes.howToScoreColumn, classes.cellLight)}>
+            <span className={cn(classes.textSmall, classes.textUpper)}>
+              <div>Score 100</div>
+              <div>Per X</div>
+            </span>
+          </td>
+          <PlayerTotalCells players={gamePlayers} getTotal={yahtzeeBonusScore} />
         </tr>
         <tr className={classes.cellDark}>
           <td>

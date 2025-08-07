@@ -52,6 +52,7 @@ const useDice = () => {
   }
 
   function rollAllDice() {
+    resetSelectedDice();
     rollDice("die-1", "die-2", "die-3", "die-4", "die-5");
   }
 

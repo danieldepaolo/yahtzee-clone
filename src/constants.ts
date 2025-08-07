@@ -16,6 +16,7 @@ export const defaultPlayerScores: PlayerScores = {
   smallStraight: null,
   largeStraight: null,
   yahtzee: null,
+  yahtzeeBonus: 0,
   chance: null
 };
 
@@ -43,3 +44,4 @@ export const fullHouseScore = 25;
 export const smallStraightScore = 30;
 export const largeStraightScore = 40;
 export const yahtzeeScore = 50;
+export const yahtzeeBonusCount = 3;

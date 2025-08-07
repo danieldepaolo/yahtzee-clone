@@ -32,6 +32,15 @@
   }
 }
 
+.splitCellThirds {
+  width: 33.33333%;
+  height: 100%;
+
+  &:not(:last-child) {
+    border-right: 1px solid black;
+  }
+}
+
 .cellLight {
   background-color: var(--color-cell-light);
 }

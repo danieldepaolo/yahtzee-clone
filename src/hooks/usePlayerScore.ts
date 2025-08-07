@@ -2,6 +2,7 @@ import { useAtomValue } from "jotai";
 
 import { gameScoreAtom } from "../store/atoms";
 import { playerId, ScoreCategory } from "../types";
+import { yahtzeeScore } from "../constants";
 
 const usePlayerScore = () => {
   const gameScore = useAtomValue(gameScoreAtom);
@@ -18,6 +19,10 @@ const usePlayerScore = () => {
     category: ScoreCategory
   ): number | null {
     return gameScore[playerId][category];
+  }
+
+  function yahtzeeBonusScore(playerId: playerId) {
+    return playerCategoryScoreAsNumber(playerId, "yahtzeeBonus") * yahtzeeScore * 2;
   }
 
   function upperSectionTotals(id: playerId) {
@@ -44,6 +49,7 @@ const usePlayerScore = () => {
       playerCategoryScoreAsNumber(id, "smallStraight") +
       playerCategoryScoreAsNumber(id, "largeStraight") +
       playerCategoryScoreAsNumber(id, "yahtzee") +
+      yahtzeeBonusScore(id) +
       playerCategoryScoreAsNumber(id, "chance");
 
     return total;
@@ -56,6 +62,7 @@ const usePlayerScore = () => {
   return {
     grandTotal,
     playerCategoryScore,
+    yahtzeeBonusScore,
     upperSectionTotals,
     lowerSectionTotals,
   };

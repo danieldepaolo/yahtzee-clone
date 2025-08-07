@@ -22,6 +22,7 @@ export interface PlayerScores {
   smallStraight: number | null
   largeStraight: number | null
   yahtzee: number | null
+  yahtzeeBonus: number
   chance: number | null
 }
 

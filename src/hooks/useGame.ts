@@ -11,7 +11,7 @@ const useGame = () => {
   const [gameScore, setGameScore] = useAtom(gameScoreAtom);
 
   const { getScoreOfCategory } = useTurnScore();
-  const { pickUpDice } = useDice()
+  const { pickUpDice } = useDice();
 
   function moveToNextPlayer() {
     const currentOrder = gamePlayers.findIndex(
@@ -60,10 +60,28 @@ const useGame = () => {
     setGameScore((prev) => {
       const newScores = structuredClone(prev);
       const playerScores = newScores[turn.playerId];
+
       newScores[turn.playerId] = {
         ...playerScores,
         [category]: getScoreOfCategory(category),
       };
+
+      return newScores;
+    });
+
+    moveToNextPlayer();
+  }
+
+  function addYahtzeeBonus() {
+    setGameScore((prev) => {
+      const newScores = structuredClone(prev);
+      const playerScores = newScores[turn.playerId];
+
+      newScores[turn.playerId] = {
+        ...playerScores,
+        yahtzeeBonus: playerScores.yahtzeeBonus + 1,
+      };
+
       return newScores;
     });
 
@@ -73,6 +91,7 @@ const useGame = () => {
   return {
     addPlayerOrEdit,
     fillCategory,
+    addYahtzeeBonus,
     moveToNextPlayer,
     incrementTurnRolls,
   };
