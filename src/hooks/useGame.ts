@@ -1,20 +1,17 @@
 import { useAtom } from "jotai";
 
 import { gameScoreAtom, turnAtom, gamePlayersAtom } from "../store/atoms";
-import { Player, playerId, ScoreCategory } from "../types";
-import { defaultPlayerScores } from "../constants";
+import { Player, ScoreCategory } from "../types";
 import useTurnScore from "./useTurnScore";
+import useDice from "./useDice";
 
 const useGame = () => {
   const [gamePlayers, setGamePlayers] = useAtom(gamePlayersAtom);
   const [turn, setTurn] = useAtom(turnAtom);
   const [gameScore, setGameScore] = useAtom(gameScoreAtom);
 
-  console.log(gamePlayers);
-  console.log(turn);
-  console.log(gameScore);
-
   const { getScoreOfCategory } = useTurnScore();
+  const { pickUpDice } = useDice()
 
   function moveToNextPlayer() {
     const currentOrder = gamePlayers.findIndex(
@@ -30,6 +27,8 @@ const useGame = () => {
       playerId: gamePlayers[nextIndex].id,
       timesRolled: 0,
     });
+
+    pickUpDice();
   }
 
   function addPlayerOrEdit(player: Player) {

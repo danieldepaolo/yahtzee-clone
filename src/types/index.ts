@@ -3,7 +3,7 @@ export type playerId = 1 | 2 | 3 | 4 | 5 | 6;
 
 export interface Die {
   id: dieId;
-  value: number;
+  value: number | null;
 }
 
 // 0 for a score means striking it

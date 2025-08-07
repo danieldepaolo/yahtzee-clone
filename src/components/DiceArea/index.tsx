@@ -17,7 +17,8 @@ const DiceArea = () => {
   const { incrementTurnRolls } = useGame();
   const { rollAllDice, rollDice, toggleDie, resetSelectedDice } = useDice();
 
-  const rerollDisabled = !selectedDice?.length || turn.timesRolled === 3;
+  const turnOver = turn.timesRolled === 3;
+  const rerollDisabled = !selectedDice?.length || turnOver;
 
   const handleReroll = () => {
     rollDice(...selectedDice);
@@ -25,7 +26,7 @@ const DiceArea = () => {
     resetSelectedDice();
   };
 
-  const handleFirstRoll = () => {
+  const handleRollAll = () => {
     rollAllDice();
     incrementTurnRolls();
   };
@@ -39,27 +40,40 @@ const DiceArea = () => {
   return (
     <div className={classes.diceArea}>
       <div className={classes.diceContainer}>
-        {dice.map((die: Die) => (
-          <div
-            key={die.id}
-            className={classes.dieContainer}
-            onClick={() => handleSelectDie(die.id)}
-          >
-            <SixSidedDie
-              value={die.value}
-              selected={selectedDice.includes(die.id)}
-            />
-          </div>
-        ))}
+        {dice
+          .filter((die) => !!die.value)
+          .map((die: Die) => (
+            <div
+              key={die.id}
+              className={classes.dieContainer}
+              onClick={() => handleSelectDie(die.id)}
+            >
+              <SixSidedDie
+                value={die.value!}
+                selected={selectedDice.includes(die.id)}
+              />
+            </div>
+          ))}
       </div>
-      <p>{`Rolls: ${turn.timesRolled} / ${maxRolesPerTurn}`}</p>
-      {turn.timesRolled === 0 ? (
-        <button onClick={handleFirstRoll}>Roll</button>
-      ) : (
-        <button onClick={handleReroll} disabled={rerollDisabled}>
-          Reroll
+      <div className={classes.diceInfo}>
+        <p
+          className={classes.diceInfoNumRolls}
+        >{`Times thrown: ${turn.timesRolled} / ${maxRolesPerTurn}`}</p>
+        <button
+          className="roll-button"
+          onClick={handleReroll}
+          disabled={rerollDisabled}
+        >
+          Reroll Selected
         </button>
-      )}
+        <button
+          className="roll-button"
+          onClick={handleRollAll}
+          disabled={turnOver}
+        >
+          Roll All
+        </button>
+      </div>
     </div>
   );
 };

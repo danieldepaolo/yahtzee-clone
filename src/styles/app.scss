@@ -22,11 +22,58 @@ html {
   gap: 2rem;
 }
 
-.main-play-area {
+.game-mat {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 5rem;
   max-width: 120rem;
   background: linear-gradient(to bottom, #4CAF50, #2E7D32); /* Green gradient */
   padding: 5rem;
+}
+
+.play-area {
+  width: 50rem;
+  text-align: center;
+}
+
+.start-game-button {
+  padding: 2rem 3rem;
+  background-color: lightblue;
+  border: none;
+  border-radius: 4px;
+  font-size: 2.2rem;
+  text-transform: uppercase;
+
+  &:not(:disabled) {
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgb(139, 184, 199);
+    }
+  }
+}
+
+.roll-button {
+  padding: 1rem 0;
+  background: linear-gradient(to right, white, #444);
+  width: 16rem;
+  border: none;
+  font-size: 1.9rem;
+  border-radius: 4px;
+  transform: translateY(0);
+  transition: transform .1s ease-in;
+
+  &:not(:disabled) {
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 .5rem 1rem rgba(0,0,0,0.3);
+    }
+  }
+
+  &:not(:disabled):active {
+    transform: translateY(0);
+  }
 }

@@ -23,20 +23,26 @@ const PlayerCategoryCell = ({
   const { playerCategoryScore } = usePlayerScore();
 
   const score = playerCategoryScore(player.id, category);
-  const ableToScore = !score && turn.timesRolled > 0;
+  const ableToScore = score === null && turn.timesRolled > 0;
 
   const handleClickCell = () => {
     fillCategory(category);
-  }
+  };
 
   return (
     <div
       className={cn(classes.playerDataCell, {
-        [classes.playerDataCellCurrent]: currentTurn && !score,
+        [classes.playerDataCellCurrent]: currentTurn && score === null,
       })}
     >
       {currentTurn ? (
-        <button onClick={handleClickCell} disabled={!ableToScore} className={classes.playerFillCategoryButton}>{score}</button>
+        <button
+          onClick={handleClickCell}
+          disabled={!ableToScore}
+          className={classes.playerFillCategoryButton}
+        >
+          {score}
+        </button>
       ) : (
         <>{score}</>
       )}

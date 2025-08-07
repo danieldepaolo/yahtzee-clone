@@ -19,11 +19,14 @@ export function App() {
 
   return (
     <div className="app">
-      <h1>Yahtzee Clone</h1>
-      <main className="main-play-area">
-        <div className="dice-mat">
+      <main className="game-mat">
+        <div className="play-area">
           {gameStage === "enterNames" ? (
-            <button onClick={handleStartGame} disabled={!ableToStartGame}>
+            <button
+              onClick={handleStartGame}
+              disabled={!ableToStartGame}
+              className="start-game-button"
+            >
               Start game
             </button>
           ) : (

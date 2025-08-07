@@ -14,32 +14,27 @@ import { defaultPlayerScores } from "../constants";
 export const diceAtom = atom<Die[]>([
   {
     id: "die-1",
-    value: 1,
+    value: null,
   },
   {
     id: "die-2",
-    value: 1,
+    value: null,
   },
   {
     id: "die-3",
-    value: 1,
+    value: null,
   },
   {
     id: "die-4",
-    value: 1,
+    value: null,
   },
   {
     id: "die-5",
-    value: 1,
+    value: null,
   },
 ]);
 
 export const selectedDiceAtom = atom<dieId[]>([]);
-
-// export const playerAtom = atom<Player>({
-//   id: 1,
-//   name: "",
-// });
 
 export const turnAtom = atom<GameTurn>({
   playerId: 1,

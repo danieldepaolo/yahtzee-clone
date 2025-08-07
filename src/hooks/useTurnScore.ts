@@ -6,17 +6,21 @@ import { ScoreCategory } from "../types";
 const useTurnScore = () => {
   const dice = useAtomValue(diceAtom);
 
-  const diceCounts = dice.reduce((acc, curr) => {
-    if (curr.value in acc) {
-      acc[curr.value] += 1;
-    } else {
-      acc[curr.value] = 1;
-    }
+  const diceArePickedUp = dice.some((die) => die.value === null);
 
-    return acc;
-  }, {} as Record<number, number>);
+  const diceCounts = !diceArePickedUp
+    ? dice.reduce((acc, curr) => {
+        if (curr.value! in acc) {
+          acc[curr.value!] += 1;
+        } else {
+          acc[curr.value!] = 1;
+        }
 
-  const totalDiceValue = dice.reduce((acc, curr) => acc + curr.value, 0);
+        return acc;
+      }, {} as Record<number, number>)
+    : {};
+
+  const totalDiceValue = dice.reduce((acc, curr) => acc + (curr.value || 0), 0);
 
   function hasNOfKind(n: number, exact: boolean = false) {
     return !!Object.entries(diceCounts).find((entry) =>
@@ -24,8 +28,15 @@ const useTurnScore = () => {
     );
   }
 
-  function hasStraightOfLength(length: number, start: number = 0) {
-    const sortedDice = dice.map((die) => die.value).sort((a, b) => a - b);
+  function hasStraightOfLength(length: number, start: number = 0): boolean {
+    if (diceArePickedUp) {
+      return false;
+    }
+
+    const sortedDice = [
+      ...new Set(dice.map((die) => die.value!).sort((a, b) => a - b)),
+    ];
+    console.log(sortedDice);
 
     let isStraight = true;
 
@@ -63,7 +74,7 @@ const useTurnScore = () => {
   function smallStraightScore() {
     const hasSmallStraight =
       hasStraightOfLength(4, 0) || hasStraightOfLength(4, 1);
-  
+
     return hasSmallStraight ? 30 : 0;
   }
 
@@ -78,40 +89,40 @@ const useTurnScore = () => {
   }
 
   function getScoreOfCategory(category: ScoreCategory) {
-    switch(category) {
-      case 'ones':
+    switch (category) {
+      case "ones":
         return singleValueScore(1);
-      case 'twos':
+      case "twos":
         return singleValueScore(2);
-      case 'threes':
+      case "threes":
         return singleValueScore(3);
-      case 'fours':
+      case "fours":
         return singleValueScore(4);
-      case 'fives':
+      case "fives":
         return singleValueScore(5);
-      case 'sixes':
+      case "sixes":
         return singleValueScore(6);
-      case 'threeOfKind':
+      case "threeOfKind":
         return threeOfKindScore();
-      case 'fourOfKind':
+      case "fourOfKind":
         return fourOfKindScore();
-      case 'fullHouse':
+      case "fullHouse":
         return fullHouseScore();
-      case 'smallStraight':
+      case "smallStraight":
         return smallStraightScore();
-      case 'largeStraight':
+      case "largeStraight":
         return largeStraightScore();
-      case 'yahtzee':
+      case "yahtzee":
         return yahtzeeScore();
-      case 'chance':
+      case "chance":
       default:
         return chanceScore();
     }
   }
 
   return {
-    getScoreOfCategory
-  }
+    getScoreOfCategory,
+  };
 };
 
 export default useTurnScore;

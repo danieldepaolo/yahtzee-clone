@@ -143,7 +143,7 @@ const LowerSection = () => {
               <div>of all dice</div>
             </span>
           </td>
-          <PlayerCategoryCells players={gamePlayers} category="fullHouse" />
+          <PlayerCategoryCells players={gamePlayers} category="chance" />
         </tr>
         <tr className={classes.cellDark}>
           <td>

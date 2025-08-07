@@ -11,10 +11,10 @@ const useDice = () => {
   const [selectedDice, setSelectedDice] = useAtom(selectedDiceAtom);
 
   function selectDies(...dieIds: dieId[]) {
-    setSelectedDice(prev => {
+    setSelectedDice((prev) => {
       const newSelectedDice = [...prev];
 
-      dieIds.forEach(id => {
+      dieIds.forEach((id) => {
         if (!newSelectedDice.includes(id)) {
           newSelectedDice.push(id);
         }
@@ -25,7 +25,7 @@ const useDice = () => {
   }
 
   function deselectDies(...dieIds: dieId[]) {
-    setSelectedDice(prev => prev.filter(id => !dieIds.includes(id)));
+    setSelectedDice((prev) => prev.filter((id) => !dieIds.includes(id)));
   }
 
   function toggleDie(dieId: dieId) {
@@ -55,11 +55,21 @@ const useDice = () => {
     rollDice("die-1", "die-2", "die-3", "die-4", "die-5");
   }
 
+  function pickUpDice() {
+    setDice((prev) =>
+      prev.map((die) => ({
+        ...die,
+        value: null,
+      }))
+    );
+  }
+
   return {
     toggleDie,
     resetSelectedDice,
     rollDice,
     rollAllDice,
+    pickUpDice
   };
 };
 
