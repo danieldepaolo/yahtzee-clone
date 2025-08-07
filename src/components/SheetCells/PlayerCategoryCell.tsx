@@ -19,7 +19,7 @@ const PlayerCategoryCell = ({
 
   const currentTurn = turn.playerId === player.id;
 
-  const { makeMove } = useGame();
+  const { setPendingMove, makeMove } = useGame();
   const { playerCategoryScore } = usePlayerScore();
 
   const score = playerCategoryScore(player.id, category);
@@ -27,8 +27,13 @@ const PlayerCategoryCell = ({
   const inPendingMode = turn.pendingCategory === category;
 
   const handleClickCell = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation(); // Prevent click away listener on app from firing. That listener cancels the pending score.
-    makeMove(category);
+    if (inPendingMode) {
+      e.stopPropagation(); // Prevent click away listener on app from firing. That listener cancels the pending score.
+      makeMove(category);
+    } else {
+      e.stopPropagation(); // Prevent click away listener on app from firing. That listener cancels the pending score.
+      setPendingMove(category);
+    }
   };
 
   return (

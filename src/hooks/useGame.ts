@@ -57,22 +57,27 @@ const useGame = () => {
     }));
   }
 
-  function makeMove(category: ScoreCategory) {
-    if (!turn.pendingCategory) {
-      setTurn(prev => ({
+  function setPendingMove(category: ScoreCategory) {
+    if (category !== turn.pendingCategory) {
+      console.log(category, turn.pendingCategory);
+      setTurn((prev) => ({
         ...prev,
         pendingCategory: category,
-        pendingScore: turnScoreForPlayer(turn.playerId, category)
+        pendingScore: turnScoreForPlayer(prev.playerId, category),
       }));
-
-      return;
     }
+  }
 
-    fillCategory(turn.playerId, category);
-    moveToNextPlayer();
+  function makeMove(category: ScoreCategory) {
+    // Make sure they clicked on the pending category again
+    if (category === turn.pendingCategory) {
+      fillCategory(turn.playerId, category);
+      moveToNextPlayer();
+    }
   }
 
   return {
+    setPendingMove,
     makeMove,
     addPlayerOrEdit,
     moveToNextPlayer,
