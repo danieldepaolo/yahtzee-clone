@@ -30,6 +30,11 @@
     color: black;
     cursor: initial;
   }
+
+  &Pending {
+    animation: pending-score .6s ease infinite;
+    background-color: lightblue;
+  }
 }
 
 .splitCellThirds {
@@ -47,4 +52,18 @@
 
 .cellDark {
   background-color: var(--color-cell-dark);
+}
+
+@keyframes pending-score {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }

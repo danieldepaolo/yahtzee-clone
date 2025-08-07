@@ -19,29 +19,33 @@ const PlayerCategoryCell = ({
 
   const currentTurn = turn.playerId === player.id;
 
-  const { fillCategory } = useGame();
+  const { makeMove } = useGame();
   const { playerCategoryScore } = usePlayerScore();
 
   const score = playerCategoryScore(player.id, category);
-  const ableToScore = score === null && turn.timesRolled > 0;
+  const ableToScore = currentTurn && score === null && turn.timesRolled > 0;
+  const inPendingMode = turn.pendingCategory === category;
 
-  const handleClickCell = () => {
-    fillCategory(category);
+  const handleClickCell = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation(); // Prevent click away listener on app from firing. That listener cancels the pending score.
+    makeMove(category);
   };
 
   return (
     <div
       className={cn(classes.playerDataCell, {
-        [classes.playerDataCellCurrent]: currentTurn && score === null,
+        [classes.playerDataCellCurrent]: ableToScore,
       })}
     >
-      {currentTurn ? (
+      {ableToScore ? (
         <button
           onClick={handleClickCell}
           disabled={!ableToScore}
-          className={classes.playerFillCategoryButton}
+          className={cn(classes.playerFillCategoryButton, {
+            [classes.playerFillCategoryButtonPending]: inPendingMode,
+          })}
         >
-          {score}
+          {inPendingMode ? turn.pendingScore : score}
         </button>
       ) : (
         <>{score}</>

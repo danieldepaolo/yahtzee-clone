@@ -37,6 +37,8 @@ export const selectedDiceAtom = atom<dieId[]>([]);
 
 export const turnAtom = atom<GameTurn>({
   playerId: 1,
+  pendingCategory: null,
+  pendingScore: null,
   timesRolled: 0,
 });
 

@@ -1,11 +1,15 @@
-import { useAtomValue } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 
-import { gameScoreAtom } from "../store/atoms";
+import { gameScoreAtom, turnAtom } from "../store/atoms";
 import { playerId, ScoreCategory } from "../types";
 import { yahtzeeScore } from "../constants";
+import useTurnScore from "./useTurnScore";
 
 const usePlayerScore = () => {
-  const gameScore = useAtomValue(gameScoreAtom);
+  const [gameScore, setGameScore] = useAtom(gameScoreAtom);
+  const turn = useAtomValue(turnAtom);
+
+  const { getScoreOfCategory } = useTurnScore();
 
   function playerCategoryScoreAsNumber(
     playerId: playerId,
@@ -23,6 +27,24 @@ const usePlayerScore = () => {
 
   function yahtzeeBonusScore(playerId: playerId) {
     return playerCategoryScoreAsNumber(playerId, "yahtzeeBonus") * yahtzeeScore * 2;
+  }
+
+  function turnScoreForPlayer(playerId: playerId, category: ScoreCategory) {
+    return category === 'yahtzeeBonus' ? playerCategoryScoreAsNumber(playerId, 'yahtzeeBonus') + 1 : getScoreOfCategory(category);
+  }
+
+  function fillCategory(playerId: playerId, category: ScoreCategory) {
+    setGameScore((prev) => {
+      const newScores = structuredClone(prev);
+      const playerScores = newScores[playerId];
+
+      newScores[playerId] = {
+        ...playerScores,
+        [category]: turnScoreForPlayer(playerId, category),
+      };
+
+      return newScores;
+    });
   }
 
   function upperSectionTotals(id: playerId) {
@@ -60,8 +82,11 @@ const usePlayerScore = () => {
   }
 
   return {
+    fillCategory,
+    turnScoreForPlayer,
     grandTotal,
     playerCategoryScore,
+    playerCategoryScoreAsNumber,
     yahtzeeBonusScore,
     upperSectionTotals,
     lowerSectionTotals,

@@ -35,6 +35,8 @@ export interface Player {
 
 export interface GameTurn {
   playerId: playerId
+  pendingCategory: ScoreCategory | null;
+  pendingScore: number | null;
   timesRolled: number
 }
 

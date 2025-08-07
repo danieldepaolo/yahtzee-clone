@@ -1,16 +1,15 @@
 import { useAtom } from "jotai";
 
-import { gameScoreAtom, turnAtom, gamePlayersAtom } from "../store/atoms";
+import { turnAtom, gamePlayersAtom } from "../store/atoms";
 import { Player, ScoreCategory } from "../types";
-import useTurnScore from "./useTurnScore";
 import useDice from "./useDice";
+import usePlayerScore from "./usePlayerScore";
 
 const useGame = () => {
   const [gamePlayers, setGamePlayers] = useAtom(gamePlayersAtom);
   const [turn, setTurn] = useAtom(turnAtom);
-  const [gameScore, setGameScore] = useAtom(gameScoreAtom);
 
-  const { getScoreOfCategory } = useTurnScore();
+  const { turnScoreForPlayer, fillCategory } = usePlayerScore();
   const { pickUpDice } = useDice();
 
   function moveToNextPlayer() {
@@ -25,6 +24,8 @@ const useGame = () => {
 
     setTurn({
       playerId: gamePlayers[nextIndex].id,
+      pendingCategory: null,
+      pendingScore: null,
       timesRolled: 0,
     });
 
@@ -56,42 +57,24 @@ const useGame = () => {
     }));
   }
 
-  function fillCategory(category: ScoreCategory) {
-    setGameScore((prev) => {
-      const newScores = structuredClone(prev);
-      const playerScores = newScores[turn.playerId];
+  function makeMove(category: ScoreCategory) {
+    if (!turn.pendingCategory) {
+      setTurn(prev => ({
+        ...prev,
+        pendingCategory: category,
+        pendingScore: turnScoreForPlayer(turn.playerId, category)
+      }));
 
-      newScores[turn.playerId] = {
-        ...playerScores,
-        [category]: getScoreOfCategory(category),
-      };
+      return;
+    }
 
-      return newScores;
-    });
-
-    moveToNextPlayer();
-  }
-
-  function addYahtzeeBonus() {
-    setGameScore((prev) => {
-      const newScores = structuredClone(prev);
-      const playerScores = newScores[turn.playerId];
-
-      newScores[turn.playerId] = {
-        ...playerScores,
-        yahtzeeBonus: playerScores.yahtzeeBonus + 1,
-      };
-
-      return newScores;
-    });
-
+    fillCategory(turn.playerId, category);
     moveToNextPlayer();
   }
 
   return {
+    makeMove,
     addPlayerOrEdit,
-    fillCategory,
-    addYahtzeeBonus,
     moveToNextPlayer,
     incrementTurnRolls,
   };
