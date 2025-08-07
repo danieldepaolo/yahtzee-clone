@@ -133,7 +133,7 @@ const UpperSection = () => {
           <td>
             <span className={classes.headingLarge}>Total</span>
           </td>
-          <td>&rarr;</td>
+          <td className={classes.rightArrow}>&rarr;</td>
           <PlayerTotalCells
             players={gamePlayers}
             getTotal={(id) => upperSectionTotals(id).subtotal}
@@ -169,7 +169,7 @@ const UpperSection = () => {
               </span>
             </div>
           </td>
-          <td>&rarr;</td>
+          <td className={classes.rightArrow}>&rarr;</td>
           <PlayerTotalCells
             players={gamePlayers}
             getTotal={(id) => upperSectionTotals(id).total}

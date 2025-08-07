@@ -180,7 +180,7 @@ const LowerSection = () => {
               </span>
             </div>
           </td>
-          <td>&rarr;</td>
+          <td className={classes.rightArrow}>&rarr;</td>
           <PlayerTotalCells
             players={gamePlayers}
             getTotal={lowerSectionTotals}
@@ -196,7 +196,7 @@ const LowerSection = () => {
               </span>
             </div>
           </td>
-          <td>&rarr;</td>
+          <td className={classes.rightArrow}>&rarr;</td>
           <PlayerTotalCells
             players={gamePlayers}
             getTotal={(id) => upperSectionTotals(id).total}
@@ -208,7 +208,7 @@ const LowerSection = () => {
               <span className={classes.headingLarge}>Grand Total</span>
             </div>
           </td>
-          <td>&rarr;</td>
+          <td className={classes.rightArrow}>&rarr;</td>
           <PlayerTotalCells players={gamePlayers} getTotal={grandTotal} />
         </tr>
       </tbody>
