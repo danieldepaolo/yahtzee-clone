@@ -76,7 +76,6 @@ const useGame = () => {
 
   function setPendingMove(category: ScoreCategory) {
     if (category !== turn.pendingCategory) {
-      console.log(category, turn.pendingCategory);
       setTurn((prev) => ({
         ...prev,
         pendingCategory: category,

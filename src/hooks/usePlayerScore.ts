@@ -42,8 +42,6 @@ const usePlayerScore = () => {
         [category]: turnScoreForPlayer(playerId, category),
       };
 
-      console.log(newScores);
-
       return newScores;
     });
   }

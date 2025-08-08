@@ -36,7 +36,6 @@ const useTurnScore = () => {
     const sortedDice = [
       ...new Set(dice.map((die) => die.value!).sort((a, b) => a - b)),
     ];
-    console.log(sortedDice);
 
     let isStraight = true;
 
