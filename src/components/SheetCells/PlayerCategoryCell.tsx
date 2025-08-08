@@ -2,7 +2,7 @@ import { useAtomValue } from "jotai";
 import cn from "classnames";
 
 import { Player, ScoreCategory } from "../../types";
-import { turnAtom } from "../../store/atoms";
+import { gameStageAtom, turnAtom } from "../../store/atoms";
 import useGame from "../../hooks/useGame";
 
 import classes from "./cells.module.scss";
@@ -16,6 +16,7 @@ const PlayerCategoryCell = ({
   category: ScoreCategory;
 }) => {
   const turn = useAtomValue(turnAtom);
+  const gameStage = useAtomValue(gameStageAtom);
 
   const currentTurn = turn.playerId === player.id;
 
@@ -23,7 +24,12 @@ const PlayerCategoryCell = ({
   const { playerCategoryScore } = usePlayerScore();
 
   const score = playerCategoryScore(player.id, category);
-  const ableToScore = currentTurn && score === null && turn.timesRolled > 0;
+  const ableToScore =
+    currentTurn &&
+    score === null &&
+    turn.timesRolled > 0 &&
+    gameStage !== "gameOver";
+
   const inPendingMode = turn.pendingCategory === category;
 
   const handleClickCell = (e: React.MouseEvent<HTMLButtonElement>) => {

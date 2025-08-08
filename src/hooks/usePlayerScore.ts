@@ -1,13 +1,12 @@
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 
-import { gameScoreAtom, turnAtom } from "../store/atoms";
+import { gameScoreAtom } from "../store/atoms";
 import { playerId, ScoreCategory } from "../types";
 import { yahtzeeScore } from "../constants";
 import useTurnScore from "./useTurnScore";
 
 const usePlayerScore = () => {
   const [gameScore, setGameScore] = useAtom(gameScoreAtom);
-  const turn = useAtomValue(turnAtom);
 
   const { getScoreOfCategory } = useTurnScore();
 
@@ -42,6 +41,8 @@ const usePlayerScore = () => {
         ...playerScores,
         [category]: turnScoreForPlayer(playerId, category),
       };
+
+      console.log(newScores);
 
       return newScores;
     });
@@ -81,7 +82,14 @@ const usePlayerScore = () => {
     return upperSectionTotals(id).total + lowerSectionTotals(id);
   }
 
+  function playerEndGame(playerId: playerId) {
+    const playerScore = gameScore[playerId];
+
+    return Object.values(playerScore).every(score => score !== null);
+  }
+
   return {
+    playerEndGame,
     fillCategory,
     turnScoreForPlayer,
     grandTotal,

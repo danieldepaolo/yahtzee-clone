@@ -7,6 +7,7 @@ import {
   GameTurn,
   GamePlayers,
   GameStage,
+  Player,
 } from "../types";
 import { defaultPlayerScores } from "../constants";
 
@@ -54,3 +55,5 @@ export const gameScoreAtom = atom<GameScore>({
 });
 
 export const gameStageAtom = atom<GameStage>("enterNames");
+
+export const gameWinnerAtom = atom<Player | null>(null);

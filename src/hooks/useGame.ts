@@ -1,23 +1,40 @@
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 
-import { turnAtom, gamePlayersAtom } from "../store/atoms";
+import { turnAtom, gamePlayersAtom, gameStageAtom, gameWinnerAtom } from "../store/atoms";
 import { Player, ScoreCategory } from "../types";
 import useDice from "./useDice";
 import usePlayerScore from "./usePlayerScore";
+import { useEffect } from "react";
 
 const useGame = () => {
   const [gamePlayers, setGamePlayers] = useAtom(gamePlayersAtom);
   const [turn, setTurn] = useAtom(turnAtom);
+  const [gameStage, setGameStage] = useAtom(gameStageAtom);
+  const setGameWinner = useSetAtom(gameWinnerAtom);
 
-  const { turnScoreForPlayer, fillCategory } = usePlayerScore();
+  const { turnScoreForPlayer, fillCategory, playerEndGame, grandTotal } = usePlayerScore();
   const { pickUpDice } = useDice();
 
-  function moveToNextPlayer() {
-    const currentOrder = gamePlayers.findIndex(
-      (player) => player.id === turn.playerId
-    );
+  useEffect(() => {
+    if (gameEnd()) {
+      setGameWinner(getWinner());
+      setGameStage('gameOver');
+    }
+  }, [turn])
 
-    let nextIndex = currentOrder + 1;
+  function currentPlayerIndex(): number {
+    return gamePlayers.findIndex(player => player.id === turn.playerId);
+  }
+
+  function currentPlayer(): Player | null {
+    const playerIndex = currentPlayerIndex();
+    return playerIndex !== -1 ? gamePlayers[playerIndex] : null;
+  }
+
+  function moveToNextPlayer() {
+    const playerIndex = currentPlayerIndex();
+
+    let nextIndex = playerIndex + 1;
     if (nextIndex === gamePlayers.length) {
       nextIndex = 0;
     }
@@ -76,8 +93,26 @@ const useGame = () => {
     }
   }
 
+  function gameEnd(): boolean {
+    return gameStage !== 'enterNames' && gamePlayers.every(player => playerEndGame(player.id));
+  }
+
+  function getWinner(): Player {
+    let winner = { ...gamePlayers[0] };
+
+    for (let i = 1; i < gamePlayers.length; i++) {
+      if (grandTotal(gamePlayers[i].id) > grandTotal(winner.id)) {
+        winner = { ...gamePlayers[i] };
+      }
+    }
+
+    return winner;
+  }
+
   return {
+    gameEnd,
     setPendingMove,
+    currentPlayer,
     makeMove,
     addPlayerOrEdit,
     moveToNextPlayer,
