@@ -3,6 +3,7 @@ import cn from "classnames";
 
 import PlayerCategoryCells from "../SheetCells/PlayerCategoryCells";
 import PlayerTotalCells from "../SheetCells/PlayerTotalCells";
+import YahtzeeBonusCells from "../SheetCells/YahtzeeBonusCells";
 
 import usePlayerScore from "../../hooks/usePlayerScore";
 import { gamePlayersAtom } from "../../store/atoms";
@@ -15,7 +16,7 @@ import {
 } from "../../constants";
 
 import classes from "./styles.module.scss";
-import YahtzeeBonusCells from "../SheetCells/YahtzeeBonusCells";
+import CategoryLabelCell from "../SheetCells/CategoryLabelCell";
 
 const LowerSection = () => {
   const gamePlayers = useAtomValue(gamePlayersAtom);
@@ -83,13 +84,7 @@ const LowerSection = () => {
         </tr>
         <tr>
           <td>
-            <div className={classes.titleWithDescription}>
-              <span className={classes.headingSmall}>SM Straight</span>
-              <span className={classes.textTiny}>
-                <div>Sequence</div>
-                <div>of 4</div>
-              </span>
-            </div>
+            <CategoryLabelCell title="SM Straight" titleSize="small" description="Sequence of 4" />
           </td>
           <td className={cn(classes.howToScoreColumn, classes.cellLight)}>
             <span className={cn(classes.textSmall, classes.textUpper)}>
@@ -100,13 +95,7 @@ const LowerSection = () => {
         </tr>
         <tr>
           <td>
-            <div className={classes.titleWithDescription}>
-              <span className={classes.headingSmall}>LG Straight</span>
-              <span className={classes.textTiny}>
-                <div>Sequence</div>
-                <div>of 5</div>
-              </span>
-            </div>
+            <CategoryLabelCell title="LG Straight" titleSize="small" description="Sequence of 5" />
           </td>
           <td className={cn(classes.howToScoreColumn, classes.cellLight)}>
             <span className={cn(classes.textSmall, classes.textUpper)}>
@@ -117,15 +106,7 @@ const LowerSection = () => {
         </tr>
         <tr>
           <td>
-            <div className={classes.titleWithDescription}>
-              <span className={cn(classes.headingSmall, classes.textUpper)}>
-                Yahtzee
-              </span>
-              <span className={classes.textTiny}>
-                <div>5 of</div>
-                <div>a Kind</div>
-              </span>
-            </div>
+            <CategoryLabelCell title="Yahtzee" titleSize="small" description="5 of a Kind" />
           </td>
           <td className={cn(classes.howToScoreColumn, classes.cellLight)}>
             <span className={cn(classes.textSmall, classes.textUpper)}>
@@ -150,7 +131,7 @@ const LowerSection = () => {
           <td rowSpan={2} className={cn(classes.textCentered, classes.cellDark)}>
             <span className={classes.headingLarge}>
               <div>Yahtzee</div>
-              <div>Bonus</div>
+              <div className={classes.textHuge}>Bonus</div>
             </span>
           </td>
           <td className={cn(classes.howToScoreColumn, classes.cellLight)}>
@@ -172,13 +153,7 @@ const LowerSection = () => {
         </tr>
         <tr className={classes.cellDark}>
           <td>
-            <div className={classes.titleWithDescription}>
-              <span className={classes.headingLarge}>Total</span>
-              <span className={classes.textTiny}>
-                <div>Of Lower</div>
-                <div>Section</div>
-              </span>
-            </div>
+            <CategoryLabelCell title="Total" description="Of Lower Section" />
           </td>
           <td className={classes.rightArrow}>&rarr;</td>
           <PlayerTotalCells
@@ -188,13 +163,7 @@ const LowerSection = () => {
         </tr>
         <tr>
           <td>
-            <div className={classes.titleWithDescription}>
-              <span className={classes.headingLarge}>Total</span>
-              <span className={classes.textTiny}>
-                <div>Of Upper</div>
-                <div>Section</div>
-              </span>
-            </div>
+            <CategoryLabelCell title="Total" description="Of Upper Section" />
           </td>
           <td className={classes.rightArrow}>&rarr;</td>
           <PlayerTotalCells

@@ -38,6 +38,10 @@
   letter-spacing: -1px;
 }
 
+.textHuge {
+  font-size: 1.8rem;
+}
+
 .headingSmall {
   font-weight: bold;
   font-size: 1.4rem;
@@ -91,6 +95,7 @@ th {
   border-bottom: 1px solid black;
   width: 6rem;
   height: 3rem;
+  padding: 0 4px;
 }
 
 tr {

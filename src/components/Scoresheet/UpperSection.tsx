@@ -12,6 +12,7 @@ import { Player } from "../../types";
 
 import classes from "./styles.module.scss";
 import PlayerTotalCells from "../SheetCells/PlayerTotalCells";
+import CategoryLabelCell from "../SheetCells/CategoryLabelCell";
 
 const UpperSection = () => {
   const gamePlayers = useAtomValue(gamePlayersAtom);
@@ -141,13 +142,7 @@ const UpperSection = () => {
         </tr>
         <tr>
           <td>
-            <div className={classes.titleWithDescription}>
-              <span className={classes.headingLarge}>Bonus</span>
-              <span className={classes.textTiny}>
-                <div>If total score</div>
-                <div>is 63 or over</div>
-              </span>
-            </div>
+            <CategoryLabelCell title="Bonus" titleSize="large" description="If total score is 63 or over" />
           </td>
           <td className={cn(classes.cellLight, classes.howToScoreColumn)}>
             <span className={cn(classes.textSmall, classes.textUpper)}>
@@ -161,13 +156,7 @@ const UpperSection = () => {
         </tr>
         <tr className={classes.cellDark}>
           <td>
-            <div className={classes.titleWithDescription}>
-              <span className={classes.headingLarge}>Total</span>
-              <span className={classes.textTiny}>
-                <div>Of Upper</div>
-                <div>Section</div>
-              </span>
-            </div>
+            <CategoryLabelCell title="Total" description="Of Upper Section" />
           </td>
           <td className={classes.rightArrow}>&rarr;</td>
           <PlayerTotalCells

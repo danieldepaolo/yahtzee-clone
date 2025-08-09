@@ -25,7 +25,7 @@ function PlayerHeaderCell({
 
   if (inputActive) {
     return (
-      <th>
+      <th className={classes.compactCell}>
         <NameInput
           placeholder={`Player ${player?.id || index + 1}`}
           initialValue={player?.name || ""}
